@@ -6,4 +6,5 @@ COPY package-lock.json /app/package-lock.json
 COPY knexfile.js /app/knexfile.js
 COPY jest.config.js /app/jest.config.js
 RUN npm install
+RUN npm install knex -g && knex migrate:latest
 CMD ["npm", "run", "prod"]

@@ -1,25 +1,52 @@
 import React from 'react';
-import logo from './logo.svg';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
+import Login, {Login2, Login3List} from './pages/Login';
+import List  from './pages/List';
+
 import './App.css';
+
+const listss: string[] = ['givailson', 'junior', 'julio', 'db', 'db'];
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Login</Link>
+          </li>
+          <li>
+            <Link to="/list">List</Link>
+          </li>
+        </ul>
+      </nav>
+      <Login2 fontSize={28} text="givailson">
+        <p>adflkjaskjas</p>
+        <p>adflkjaskjas</p>
+        <p>adflkjaskjas</p>
+        <p>adflkjaskjas</p>
+        <p>adflkjaskjas</p>
+        <p>adflkjaskjas</p>
+      </Login2>
+      <hr />
+      <Login3List listNames={listss} />
+      <div className="App">
+        <Switch>
+          <Route path="/" exact={true} >
+            <Login />
+          </Route>
+          <Route path="/list">
+            <List />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
