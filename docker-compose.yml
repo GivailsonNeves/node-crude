@@ -19,14 +19,14 @@ services:
             - "3333:3333"
         entrypoint: yarn
         command: start
-    front:
-        build:
-            context: ./front
-            dockerfile: Dockerfile
-        volumes:
-            - ./front:/app
-        ports:
-            - "3000:3000"
-            - "35729:35729"
-        entrypoint: yarn
-        command: start
+    # front:
+    #     build:
+    #         context: ./front
+    #         dockerfile: Dockerfile
+    #     volumes:
+    #         - ./front:/app
+    #     ports:
+    #         - "3000:3000"
+    #         - "35729:35729"
+    #     entrypoint: yarn
+    #     command: start
