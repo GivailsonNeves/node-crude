@@ -20,12 +20,25 @@ function Home() {
         refreshProducts();
     }, [setProducts]);
 
-    const handleOpenModalAddd = () => {
+    const handleOpenModalAdd = () => {
         setShowModal(true);
     }
 
-    const handleCloseModalAddd = () => {
+    const handleCloseModalAdd = () => {
         setShowModal(false);
+    }
+
+    const handleOnSave = async (product: any) => {
+        try {
+           // await ProductApi.save(product);
+            const _products = await ProductApi.list();
+            if (_products) {
+                setProducts(_products);
+            }
+            setShowModal(false);
+        } catch(err: any) {
+            alert('xiii');
+        }
     }
 
     const handleButtao = (id: number) => {
@@ -37,7 +50,7 @@ function Home() {
             <div className="product-list">
                 <div className="text-right">
                     <Button
-                        onClick={handleOpenModalAddd}
+                        onClick={handleOpenModalAdd}
                         variant="primary">
                         Adicionar
                     </Button>
@@ -79,7 +92,7 @@ function Home() {
                 </Table>
                 <div className="text-right">
                     <Button
-                        onClick={handleOpenModalAddd}
+                        onClick={handleOpenModalAdd}
                         variant="primary">
                         Adicionar
                     </Button>
@@ -87,7 +100,8 @@ function Home() {
             </div>
             <ModalAdd
                 show={showModal}
-                onClose={handleCloseModalAddd}
+                onClose={handleCloseModalAdd}
+                onSave={handleOnSave}
             />
         </>
     );
