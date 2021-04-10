@@ -18,7 +18,7 @@ function Register() {
 
     const handleResgistre = async (event: FormEvent) => {
         event.preventDefault();
-        if (user.password != user.confirmPassword) {
+        if (user.password !== user.confirmPassword) {
             window.alert('Senhas não conferer');
         } else {
             try {

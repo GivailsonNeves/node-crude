@@ -8,11 +8,11 @@ export class UserApi {
         return;
     }
     static async create(user: {password: string, email: string, name: string}) : Promise<any> {
-        const {data: {name, token}} = await request('user', 'POST', user);
+        await request('user', 'POST', user);
         return;
     }
     static async validateEmal(code: string) : Promise<any> {
-        const {data: {name, token}} = await request(`validatelogin/${code}`, 'POST');
+        await request(`validatelogin/${code}`, 'POST');
         return;
     }
     static logOut() {

@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Navbar, Nav, NavDropdown, Container } from 'react-bootstrap';
-import { useHistory } from 'react-router';
 import { UserApi } from '../../services/user-api';
 
 function Header() {
 
-    const history = useHistory();
     const [userName, setUserName] = useState('');
 
     useEffect(() => {

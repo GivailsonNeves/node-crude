@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Button } from 'react-bootstrap';
-import { Table } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Button, ButtonGroup, Table } from 'react-bootstrap';
+import { ProductApi } from '../../services/product-api';
 import ModalAdd from './modal-add';
 
 import './styles.css';
@@ -8,6 +8,17 @@ import './styles.css';
 function Home() {
 
     const [showModal, setShowModal] = useState(false);
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        async function refreshProducts() {
+            const _products = await ProductApi.list();
+            if (_products) {
+                setProducts(_products);
+            }
+        }
+        refreshProducts();
+    }, [setProducts]);
 
     const handleOpenModalAddd = () => {
         setShowModal(true);
@@ -15,6 +26,10 @@ function Home() {
 
     const handleCloseModalAddd = () => {
         setShowModal(false);
+    }
+
+    const handleButtao = (id: number) => {
+        alert(id);
     }
 
     return (
@@ -31,29 +46,35 @@ function Home() {
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th style={{width: '200px'}}></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td colSpan={2}>Larry the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
+                        {
+                            products && products.map(
+                                (p: any, index: number) => (
+                                    <tr key={index}>
+                                        <td>{p.id}</td>
+                                        <td>{p.name}</td>
+                                        <td>{p.create_date}</td>
+                                        <td>
+                                            <ButtonGroup
+                                                aria-label="Basic example">
+                                                <Button
+                                                    onClick={() => handleButtao(p.id)}
+                                                    variant="secondary">visualizar</Button>
+                                                <Button
+                                                    variant="danger"
+                                                    onClick={() => handleButtao(p.id)}>
+                                                    remover</Button>
+                                            </ButtonGroup>
+                                        </td>
+                                    </tr>
+                                )
+                            )
+                        }
                     </tbody>
                 </Table>
                 <div className="text-right">
@@ -64,7 +85,7 @@ function Home() {
                     </Button>
                 </div>
             </div>
-            <ModalAdd 
+            <ModalAdd
                 show={showModal}
                 onClose={handleCloseModalAddd}
             />
