@@ -25,7 +25,7 @@ module.exports = {
             deleted: false
         });
 
-        return response.json();
+        return response.status(201).json();
     },
     async login(request, response) {
         
@@ -48,7 +48,7 @@ module.exports = {
 
             return response.json({
                 name: userInDB.name,
-                email,
+                // email,
                 token
             });
         }

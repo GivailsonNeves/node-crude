@@ -10,14 +10,17 @@ import './styles.css';
 function Login() {
 
     const history = useHistory();
-    const [credentials, setCredentials] = useState<{email: string, password: string}>({email: '', password: ''});
+    const [credentials, setCredentials] 
+        = useState<{email: string, password: string}>({email: 'givailson@gmail.com', password: '123456'});
 
     const handleLogin = async (event: FormEvent) => {
         event.preventDefault();
-        const response = await UserApi.login(credentials);
-        console.log(response);
-        // window.localStorage.setItem('user-token', 'token');
-        // history.replace('/');
+        try {
+            await UserApi.login(credentials);
+            history.replace('/');
+        } catch (err : any) {
+            window.alert('erro ao tentar efetuar login');
+        }
     }
 
     return (
@@ -48,9 +51,6 @@ function Login() {
                                 onInput={(event: any) => setCredentials({...credentials, password: event.target.value})}
                                 value={credentials.password}
                             />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Check type="checkbox" label="Lembrar" />
                         </Form.Group>
                         <Button variant="primary" type="submit" block>
                             Acessar
