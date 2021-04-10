@@ -3,9 +3,16 @@
 module.exports = {
 
   development: {
-    client: 'sqlite3',
+    client: 'postgresql',
     connection: {
-      filename: './src/database/db.sqlite'
+      host:     'db',
+      database: 'crud',
+      user:     'postgres',
+      password: 'qwe123'
+    },
+    pool: {
+      min: 2,
+      max: 10
     },
     migrations: {
       directory: './src/database/migrations'

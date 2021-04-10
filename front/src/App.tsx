@@ -1,53 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  useHistory
 } from "react-router-dom";
 
-import Login, {Login2, Login3List} from './pages/Login';
-import List  from './pages/List';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 import './App.css';
+import Main from './template/Main';
 
-const listss: string[] = ['givailson', 'junior', 'julio', 'db', 'db'];
+function AppContainer() {
 
-function App() {
+  const history = useHistory();
+
+  useEffect(() => {
+    function checkLogin() {
+      const token = window.localStorage.getItem('user-token');
+      if (!token) {
+        history.replace('/login');
+      } else {
+        history.replace('/');
+      }
+    }
+    checkLogin();
+  }, [history])
+
   return (
-    <Router>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Login</Link>
-          </li>
-          <li>
-            <Link to="/list">List</Link>
-          </li>
-        </ul>
-      </nav>
-      <Login2 fontSize={28} text="givailson">
-        <p>adflkjaskjas</p>
-        <p>adflkjaskjas</p>
-        <p>adflkjaskjas</p>
-        <p>adflkjaskjas</p>
-        <p>adflkjaskjas</p>
-        <p>adflkjaskjas</p>
-      </Login2>
-      <hr />
-      <Login3List listNames={listss} />
-      <div className="App">
-        <Switch>
-          <Route path="/" exact={true} >
-            <Login />
-          </Route>
-          <Route path="/list">
-            <List />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+    <Switch>
+      <Route exact={true} path="/login" component={Login} />
+      <Route exact={true} path="/signin" component={Register} />
+      <Route path="/" component={Main} />
+    </Switch>
   );
 }
+
+const App = () => <Router><AppContainer /></Router>;
 
 export default App;

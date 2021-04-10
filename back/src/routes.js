@@ -3,7 +3,7 @@ const { celebrate, Segments, Joi} = require('celebrate');
 const routes = express.Router();
 
 const OngController = require('./controllers/OngController');
-const SessionController = require('./controllers/SessionController');
+const UsersController = require('./controllers/UsersController');
 const IncidentsController = require('./controllers/IncidentesController');
 const ProfileController = require('./controllers/ProfileController');
 
@@ -25,6 +25,8 @@ routes.get('/incidents/:id', IncidentsController.getOne);
 routes.post('/incidents', IncidentsController.create);
 routes.delete('/incidents/:id', IncidentsController.delete);
 
-routes.get('/login/:id', SessionController.create);
+routes.post('/login', UsersController.login);
+routes.post('/user', UsersController.create);
+routes.post('/emailvalidate/:code', UsersController.validateEmail);
 
 module.exports = routes;

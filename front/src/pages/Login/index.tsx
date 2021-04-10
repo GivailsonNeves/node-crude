@@ -1,69 +1,69 @@
-import React, { Children } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { Card, Button, Form } from 'react-bootstrap';
+import {
+    Link, useHistory
+} from "react-router-dom";
+import { UserApi } from '../../services/user-api';
 
 import './styles.css';
 
 function Login() {
+
+    const history = useHistory();
+    const [credentials, setCredentials] = useState<{email: string, password: string}>({email: '', password: ''});
+
+    const handleLogin = async (event: FormEvent) => {
+        event.preventDefault();
+        const response = await UserApi.login(credentials);
+        console.log(response);
+        // window.localStorage.setItem('user-token', 'token');
+        // history.replace('/');
+    }
+
     return (
         <div className="telaLogin">
             <Card>
-                <Card.Title>
-                    Form login
-            </Card.Title>
                 <Card.Body>
-                    <Form>
-                        <Form.Group controlId="formBasicEmail">
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control type="email" placeholder="Enter email" />
+                    <Card.Title>
+                        Login
+                    </Card.Title>
+                    <Form onSubmit={handleLogin}>
+                        <Form.Group>
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control 
+                                type="email" 
+                                placeholder="E-mail do usuário"
+                                onInput={(event: any) => setCredentials({...credentials, email: event.target.value})}
+                                value={credentials.email}
+                            />
                             <Form.Text className="text-muted">
-                                We'll never share your email with anyone else.
+                                Não iremos compartilhar seu e-mail com outra pessoa.
                             </Form.Text>
                         </Form.Group>
-
-                        <Form.Group controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control type="password" placeholder="Password" />
+                        <Form.Group>
+                            <Form.Label>Senha</Form.Label>
+                            <Form.Control 
+                                type="password" 
+                                placeholder="Senha"
+                                onInput={(event: any) => setCredentials({...credentials, password: event.target.value})}
+                                value={credentials.password}
+                            />
                         </Form.Group>
-                        <Form.Group controlId="formBasicCheckbox">
-                            <Form.Check type="checkbox" label="Check me out" />
+                        <Form.Group>
+                            <Form.Check type="checkbox" label="Lembrar" />
                         </Form.Group>
-                        <Button variant="primary" type="submit">
-                            Submit
+                        <Button variant="primary" type="submit" block>
+                            Acessar
                         </Button>
                     </Form>
+                    <hr />
+                    <div className="text-center">
+                        <Link to="/signin">Cadastre-se</Link>
+                    </div>
                 </Card.Body>
             </Card>
         </div>
     );
-}
+};
 
 export default Login;
-
-export function Login2(props: any) {
-
-    const { fontSize, text, children } = props;
-
-    return <>
-        <p style={{ fontSize: `${fontSize}px` }}>{text} {fontSize}</p>
-        <div>
-            {children}
-        </div>
-    </>;
-}
-
-export function Login3List(props: any) {
-
-    const { listNames } = props;
-
-    return <div>
-        {
-            (!!listNames && !!listNames.length) ?
-            <ul>
-                {
-                    listNames.map((iten : string, indice: number) => <li key={indice}>{iten}</li>)
-                }
-            </ul>
-            : <p>nao tem nada</p>
-        }
-    </div>;
-}

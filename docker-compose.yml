@@ -1,13 +1,14 @@
 version: '3'
 services:
-    postgres:
+    db:
         image: postgres:12.1
         ports:
             - "5432:5432"
         environment:
             POSTGRES_PASSWORD: qwe123
+            POSTGRES_DB: crud
         volumes:
-            - ./postgresql/data:/var/lib/postgresql/data
+            - ~/dbdata:/var/lib/postgresql/data
     back:
         build:
             context: ./back
@@ -15,8 +16,12 @@ services:
         volumes:
             - ./back/src:/app/src
             - ./back/tests:/app/tests
+            - ./back/package.json:/app/package.json
+            - ./back/knexfile.js:/app/knexfile.js
         ports:
             - "3333:3333"
+        links:
+            - db
         entrypoint: yarn
         command: start
     front:
