@@ -8,6 +8,7 @@ import {
 
 import Login from './pages/Login';
 import Register from './pages/Register';
+import EmailValidator from './pages/EmailValidator';
 
 import './App.css';
 import Main from './template/Main';
@@ -19,10 +20,13 @@ function AppContainer() {
   useEffect(() => {
     function checkLogin() {
       const token = window.localStorage.getItem('user-token');
-      if (!token) {
-        history.replace('/login');
-      } else {
-        history.replace('/');
+      console.log(history.location.pathname)
+      if (!history.location.pathname.includes('/emailvalidate')) {
+        if (!token) {
+          history.replace('/login');
+        } else {
+          history.replace('/');
+        }
       }
     }
     checkLogin();
@@ -32,6 +36,7 @@ function AppContainer() {
     <Switch>
       <Route exact={true} path="/login" component={Login} />
       <Route exact={true} path="/signin" component={Register} />
+      <Route exact={true} path="/emailvalidate/:code" component={EmailValidator} />
       <Route path="/" component={Main} />
     </Switch>
   );

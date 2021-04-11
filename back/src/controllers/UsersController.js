@@ -2,6 +2,7 @@ const connection = require('../database/connection');
 const generateID = require('../utils/generateUniqueID');
 const generatePassword = require('../utils/generatePassword');
 const sendEmail = require('../services/sendEmail');
+const getLogedUser = require('../utils/getLogedUser');
 
 module.exports = {
     async create(request, response) {
@@ -18,7 +19,7 @@ module.exports = {
         }
 
         const emailCode = generateID();
-        sendEmail(email, emailCode);
+        await sendEmail(email, emailCode);
 
         await connection('users').insert({
             name,
@@ -57,6 +58,17 @@ module.exports = {
         }
 
         return response.status(401).json({ error: 'credentials are invalid' });
+    },
+    async newValidateLogin(request, response) {
+        try {
+            const user = await getLogedUser(request);
+            await sendEmail(user.email, user.email_code);
+        } catch (error) {
+            if (error.code) {
+                return response.status(error.code).json(error.message);
+            }
+            return response.status(500).json(error);
+        }
     },
     async validateEmail(request, response) {
         
