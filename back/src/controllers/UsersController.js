@@ -1,7 +1,7 @@
 const connection = require('../database/connection');
 const generateID = require('../utils/generateUniqueID');
 const generatePassword = require('../utils/generatePassword');
-const { where } = require('../database/connection');
+const sendEmail = require('../services/sendEmail');
 
 module.exports = {
     async create(request, response) {
@@ -17,11 +17,14 @@ module.exports = {
             return response.status(400).json({ error: 'user already exists' });
         }
 
+        const emailCode = generateID();
+        sendEmail(email, emailCode);
+
         await connection('users').insert({
             name,
             email,
             password: generatePassword(password),
-            email_code: generateID(),
+            email_code: emailCode,
             deleted: false
         });
 
@@ -33,7 +36,7 @@ module.exports = {
 
         const userInDB = await connection('users')
             .where('email', email)
-            .select('id', 'name', 'password')
+            .select('id', 'name', 'password', 'email_confirmed')
             .first();
 
         if (userInDB && userInDB.password === generatePassword(password)) {
@@ -48,7 +51,7 @@ module.exports = {
 
             return response.json({
                 name: userInDB.name,
-                // email,
+                emailConfirmed: userInDB.email_confirmed,
                 token
             });
         }
