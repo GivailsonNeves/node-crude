@@ -17,7 +17,7 @@ module.exports = async function (email, code) {
         subject: "Confirmação de e-mail",
         html: `
                 <p><b>Confirme seu e-mail</b></p>
-                <p><a href="http://localhost:3333/emailvalidate/${code}">confirmar</a></p>
+                <p><a href="http://localhost:3000/emailvalidate/${code}">confirmar</a></p>
             `
     });
     return info.messageId;
