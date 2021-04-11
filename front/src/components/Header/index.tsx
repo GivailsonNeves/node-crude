@@ -11,8 +11,8 @@ function Header() {
         function refreshUserName() {
             const _userName: string | null = window.localStorage.getItem('user-name');
             _userName && setUserName(_userName);
-            const _userConfirmed: any = window.localStorage.getItem('user-name');
-            setUserConfirmed(!_userConfirmed);
+            const _userConfirmed: any = window.localStorage.getItem('user-confirmed');
+            setUserConfirmed(!!_userConfirmed && _userConfirmed !== 'null');
         }
         refreshUserName();
     }, [setUserName]);
@@ -41,7 +41,7 @@ function Header() {
                 </Container>
             </Navbar>
             {
-                userConfirmed &&
+                !userConfirmed &&
                 <Container>
                     <Alert variant='warning'>
                         Você ainda não confirmou seu e-mail clique <a href="#" onClick={handleNewEmail}>aqui</a> para enviar novamente!

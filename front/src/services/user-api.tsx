@@ -14,7 +14,7 @@ export class UserApi {
     }
     static async validateEmal(code: string) : Promise<any> {
         await request(`emailvalidate/${code}`, 'POST');
-        window.localStorage.setItem('user-confirmed', new Date().toISOString());
+        window.localStorage.setItem('user-confirmed', 'true');
         return;
     }
     static async newEmailValidator() : Promise<any> {
